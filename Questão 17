@@ -1,0 +1,33 @@
+import subprocess
+import platform
+import re
+
+def ping_media(host='8.8.8.8', count=5):
+    sistema = platform.system()
+    if sistema == "Windows":
+        comando = ["ping", "-n", str(count), host]
+    else:
+        comando = ["ping", "-c", str(count), host]
+
+    try:
+        output = subprocess.check_output(comando, universal_newlines=True)
+    except subprocess.CalledProcessError:
+        print("Falha ao executar o ping.")
+        return None
+
+    # Extrair os tempos de resposta usando regex
+    tempos = re.findall(r'time[=<]([\d.]+) ?ms', output)
+
+    if not tempos:
+        print("Não foi possível obter os tempos de resposta.")
+        return None
+
+    # Converter para float e calcular média
+    tempos_float = [float(t) for t in tempos]
+    media = sum(tempos_float) / len(tempos_float)
+    return media
+
+if __name__ == "__main__":
+    media = ping_media()
+    if media is not None:
+        print(f"Tempo médio de resposta para 8.8.8.8 em 5 pings: {media:.2f} ms")
