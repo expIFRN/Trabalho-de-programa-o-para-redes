@@ -1,0 +1,13 @@
+def main():
+    try:
+        upload = float(input("Digite a quantidade de upload em MB: ").replace(',', '.'))
+        download = float(input("Digite a quantidade de download em MB: ").replace(',', '.'))
+    except ValueError:
+        print("Entrada inválida. Digite números válidos.")
+        return
+
+    total = upload + download
+    print(f"Total de dados transferidos no dia: {total:.2f} MB")
+
+if __name__ == "__main__":
+    main()
