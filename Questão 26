@@ -1,0 +1,21 @@
+from flask import Flask, request, jsonify
+import re
+
+app = Flask(__name__)
+
+@app.route('/validar_mac', methods=['POST'])
+def validar_mac():
+    data = request.get_json()
+    if not data or 'mac' not in data:
+        return jsonify({"erro": "Campo 'mac' obrigatório."}), 400
+
+    mac = data['mac'].lower()
+    padrao_mac = r'^([0-9a-f]{2}[:-]){5}([0-9a-f]{2})$'
+
+    if re.match(padrao_mac, mac):
+        return jsonify({"mac": mac, "valido": True})
+    else:
+        return jsonify({"mac": mac, "valido": False})
+
+if __name__ == '__main__':
+    app.run(debug=True)
