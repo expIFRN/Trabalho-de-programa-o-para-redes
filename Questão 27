@@ -1,0 +1,13 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/echo', methods=['POST'])
+def echo():
+    data = request.get_json()
+    if data is None:
+        return jsonify({"erro": "Nenhum JSON recebido."}), 400
+    return jsonify(data)
+
+if __name__ == '__main__':
+    app.run(debug=True)
