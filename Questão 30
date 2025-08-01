@@ -1,0 +1,27 @@
+import json
+
+def ler_configs(arquivo='configs.json'):
+    try:
+        with open(arquivo, 'r') as f:
+            dados = json.load(f)
+    except FileNotFoundError:
+        print(f"Arquivo '{arquivo}' não encontrado.")
+        return
+    except json.JSONDecodeError:
+        print(f"Erro ao decodificar o JSON em '{arquivo}'.")
+        return
+
+    def exibir_chaves_valores(d, prefixo=''):
+        if isinstance(d, dict):
+            for chave, valor in d.items():
+                if isinstance(valor, dict):
+                    exibir_chaves_valores(valor, prefixo + chave + '.')
+                else:
+                    print(f"{prefixo}{chave}: {valor}")
+        else:
+            print(f"{prefixo}{d}")
+
+    exibir_chaves_valores(dados)
+
+if __name__ == "__main__":
+    ler_configs()
