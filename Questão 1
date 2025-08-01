@@ -1,0 +1,21 @@
+import os
+
+diretorio_principal = input("Digite o caminho do diretório principal: ").strip()
+
+if not os.path.exists(diretorio_principal):
+    os.makedirs(diretorio_principal)
+    print(f"Diretório '{diretorio_principal}' criado com sucesso.")
+else:
+    print(f"O diretório '{diretorio_principal}' já existe.")
+
+subpastas = ["config", "logs", "backup"]
+
+for subpasta in subpastas:
+    caminho_completo = os.path.join(diretorio_principal, subpasta)
+    if not os.path.exists(caminho_completo):
+        os.makedirs(caminho_completo)
+        print(f"Subpasta '{subpasta}' criada.")
+    else:
+        print(f"Subpasta '{subpasta}' já existe.")
+
+print("Estrutura de diretórios finalizada.")
