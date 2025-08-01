@@ -1,0 +1,15 @@
+caminho_arquivo = 'C:/Users/20241144030018/Desktop/TRABALHO/arquivo.log'  # Substitua o nome do arquivo, se necessário
+
+contador_timeout = 0
+contador_connection_refused = 0
+
+with open(caminho_arquivo, 'r', encoding='utf-8', errors='ignore') as arquivo:
+    for linha in arquivo:
+        linha_lower = linha.lower()
+        if 'timeout' in linha_lower:
+            contador_timeout += 1
+        if 'connection refused' in linha_lower:
+            contador_connection_refused += 1
+
+print(f'Quantidade de vezes que "timeout" aparece: {contador_timeout}')
+print(f'Quantidade de vezes que "connection refused" aparece: {contador_connection_refused}')
