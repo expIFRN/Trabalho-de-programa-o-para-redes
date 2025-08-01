@@ -1,0 +1,21 @@
+import os
+
+def criar_pasta_e_arquivos():
+    nome_pasta = input("Digite o nome da pasta a ser criada: ").strip()
+    if not nome_pasta:
+        print("Nome da pasta inválido.")
+        return
+
+    # Cria a pasta, se não existir
+    os.makedirs(nome_pasta, exist_ok=True)
+
+    arquivos = ["ip_config.txt", "latencia.txt", "status_rede.txt"]
+    for arquivo in arquivos:
+        caminho_arquivo = os.path.join(nome_pasta, arquivo)
+        with open(caminho_arquivo, 'w') as f:
+            pass  # cria arquivo vazio
+
+    print(f"Pasta '{nome_pasta}' criada com os arquivos: {', '.join(arquivos)}")
+
+if __name__ == "__main__":
+    criar_pasta_e_arquivos()
