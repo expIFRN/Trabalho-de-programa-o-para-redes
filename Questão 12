@@ -1,0 +1,25 @@
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+dispositivos = ["roteador", "switch", "notebook"]
+
+@app.route('/status', methods=['GET'])
+def status():
+    return "API funcionando corretamente"
+
+@app.route('/dispositivos', methods=['GET'])
+def get_dispositivos():
+    return jsonify(dispositivos)
+
+@app.route('/adicionar_dispositivo', methods=['POST'])
+def adicionar_dispositivo():
+    data = request.get_json()
+    nome = data.get('nome')
+    if not nome:
+        return jsonify({"erro": "Campo 'nome' obrigatório."}), 400
+    dispositivos.append(nome)
+    return jsonify({"mensagem": f"Dispositivo '{nome}' adicionado com sucesso."})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
