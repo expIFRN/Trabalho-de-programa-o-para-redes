@@ -1,0 +1,7 @@
+try:
+    with open("ips.txt", "r") as arquivo:
+        linhas = arquivo.readlines()  # Lê todas as linhas
+        total_ips = len(linhas)       # Conta quantas linhas há
+        print(f"Total de IPs listados: {total_ips}")
+except FileNotFoundError:
+    print("O arquivo 'ips.txt' não foi encontrado.")
