@@ -1,0 +1,17 @@
+import socket
+from datetime import datetime
+
+def cliente_udp(host='127.0.0.1', port=12345):
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        # Envia a hora local (string) para o servidor
+        hora_local = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        sock.sendto(hora_local.encode(), (host, port))
+        print(f"Enviou hora local para {host}:{port} -> {hora_local}")
+
+        # Aguarda resposta do servidor
+        dados, endereco = sock.recvfrom(1024)
+        hora_utc = dados.decode()
+        print(f"Recebeu horário UTC do servidor {endereco}: {hora_utc}")
+
+if __name__ == "__main__":
+    cliente_udp()
