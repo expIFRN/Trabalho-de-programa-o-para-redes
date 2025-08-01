@@ -1,0 +1,24 @@
+import socket
+import json
+
+def cliente_tcp(host='127.0.0.1', port=12345):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.connect((host, port))
+            print(f"Conectado ao servidor {host}:{port}")
+
+            # Recebe dados do servidor (tamanho máximo 1024 bytes)
+            dados = sock.recv(1024)
+            if dados:
+                dispositivos = json.loads(dados.decode())
+                print("Dispositivos conectados recebidos:")
+                for dispositivo in dispositivos:
+                    print(f"- {dispositivo}")
+            else:
+                print("Nenhum dado recebido do servidor.")
+        except ConnectionRefusedError:
+            print("Não foi possível conectar ao servidor.")
+        except json.JSONDecodeError:
+            print("Erro ao decodificar dados recebidos.")
+
+if __name__ == "__main__":
