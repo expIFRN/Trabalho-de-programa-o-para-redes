@@ -1,0 +1,40 @@
+from flask import Flask, jsonify, request
+import ipaddress
+
+app = Flask(__name__)
+
+dispositivos = ["roteador", "switch", "notebook"]
+
+@app.route('/status', methods=['GET'])
+def status():
+    return "API funcionando corretamente"
+
+@app.route('/dispositivos', methods=['GET'])
+def get_dispositivos():
+    return jsonify(dispositivos)
+
+@app.route('/adicionar_dispositivo', methods=['POST'])
+def adicionar_dispositivo():
+    data = request.get_json()
+    nome = data.get('nome')
+    if not nome:
+        return jsonify({"erro": "Campo 'nome' obrigatório."}), 400
+    dispositivos.append(nome)
+    return jsonify({"mensagem": f"Dispositivo '{nome}' adicionado com sucesso."})
+
+@app.route('/verificar_ip', methods=['GET'])
+def verificar_ip():
+    ip_str = request.args.get('ip')
+    if not ip_str:
+        return jsonify({"erro": "Parâmetro 'ip' obrigatório."}), 400
+
+    try:
+        ip = ipaddress.IPv4Address(ip_str)
+        rede = ipaddress.IPv4Network("192.168.0.0/24")
+        pertence = ip in rede
+        return jsonify({"ip": ip_str, "pertence_subrede": pertence})
+    except ipaddress.AddressValueError:
+        return jsonify({"erro": "IP inválido."}), 400
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
