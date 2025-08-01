@@ -1,0 +1,26 @@
+import requests
+import time
+from datetime import datetime
+
+API_URL = "http://localhost:5000/status"  # Altere para o endpoint da API que quer monitorar
+LOG_FILE = "monitoramento_api.log"
+
+def monitorar_api():
+    while True:
+        try:
+            resposta = requests.get(API_URL, timeout=5)
+            status = "online" if resposta.status_code == 200 else "offline"
+        except requests.RequestException:
+            status = "offline"
+
+        agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_line = f"{agora} - API está {status}\n"
+
+        with open(LOG_FILE, "a") as log:
+            log.write(log_line)
+
+        print(log_line.strip())
+        time.sleep(60)  # Espera 60 segundos para a próxima verificação
+
+if __name__ == "__main__":
+    monitorar_api()
