@@ -1,0 +1,17 @@
+import random
+
+def gerar_ips_aleatorios(qtd=10):
+    ips = []
+    base = "192.168.0."
+    for _ in range(qtd):
+        # Gera um número aleatório de 1 a 254 para o último octeto (0 e 255 são reservados)
+        ultimo_octeto = random.randint(1, 254)
+        ip = base + str(ultimo_octeto)
+        ips.append(ip)
+    return ips
+
+if __name__ == "__main__":
+    lista_ips = gerar_ips_aleatorios()
+    print("IPs gerados:")
+    for ip in lista_ips:
+        print(ip)
