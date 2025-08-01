@@ -1,0 +1,23 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/maior_latencia', methods=['POST'])
+def maior_latencia():
+    data = request.get_json()
+    if not data or 'latencias' not in data:
+        return jsonify({"erro": "Campo 'latencias' obrigatório."}), 400
+    
+    latencias = data['latencias']
+    if not isinstance(latencias, list) or not latencias:
+        return jsonify({"erro": "'latencias' deve ser uma lista não vazia."}), 400
+
+    try:
+        maior = max(float(l) for l in latencias)
+    except (ValueError, TypeError):
+        return jsonify({"erro": "Todos os valores em 'latencias' devem ser números."}), 400
+
+    return jsonify({"maior_latencia": maior})
+
+if __name__ == '__main__':
+    app.run(debug=True)
