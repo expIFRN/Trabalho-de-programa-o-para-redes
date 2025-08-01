@@ -1,0 +1,17 @@
+def gerar_regras_firewall(arquivo_ips='ips_bloqueados.txt', arquivo_saida='firewall_rules.txt'):
+    try:
+        with open(arquivo_ips, 'r') as f:
+            ips = [linha.strip() for linha in f if linha.strip()]
+    except FileNotFoundError:
+        print(f"Arquivo {arquivo_ips} não encontrado.")
+        return
+
+    with open(arquivo_saida, 'w') as f_out:
+        for ip in ips:
+            regra = f"block ip {ip}\n"
+            f_out.write(regra)
+
+    print(f"Arquivo {arquivo_saida} criado com {len(ips)} regras de bloqueio.")
+
+if __name__ == "__main__":
+    gerar_regras_firewall()
