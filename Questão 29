@@ -1,0 +1,18 @@
+import random
+
+def gerar_ips_172_16_0_0_16(qtd=15, arquivo_saida='ips_gerados.txt'):
+    ips = []
+    for _ in range(qtd):
+        terceiro = random.randint(0, 255)
+        quarto = random.randint(0, 255)
+        ip = f"172.16.{terceiro}.{quarto}"
+        ips.append(ip)
+
+    with open(arquivo_saida, 'w') as f:
+        for ip in ips:
+            f.write(ip + "\n")
+
+    print(f"{qtd} endereços IP gerados e salvos em '{arquivo_saida}'.")
+
+if __name__ == "__main__":
+    gerar_ips_172_16_0_0_16()
