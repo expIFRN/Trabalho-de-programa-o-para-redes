@@ -1,0 +1,26 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/latencia', methods=['POST'])
+def latencia():
+    data = request.get_json()
+    if not data or 'latencia' not in data:
+        return jsonify({"erro": "Campo 'latencia' obrigatório."}), 400
+
+    try:
+        tempo = float(data['latencia'])
+    except ValueError:
+        return jsonify({"erro": "Campo 'latencia' deve ser numérico."}), 400
+
+    if tempo < 50:
+        status = "Boa"
+    elif 50 <= tempo <= 150:
+        status = "Média"
+    else:
+        status = "Ruim"
+
+    return jsonify({"latencia": tempo, "status": status})
+
+if __name__ == '__main__':
+    app.run(debug=True)
