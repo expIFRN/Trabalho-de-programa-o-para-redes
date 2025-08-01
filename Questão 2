@@ -1,0 +1,12 @@
+import os
+
+caminho = input("Digite o caminho do diretório: ").strip()
+
+if not os.path.isdir(caminho):
+    print("O caminho informado não é um diretório válido.")
+else:
+    print("\nArquivos com extensão .log encontrados:\n")
+    for item in os.listdir(caminho):
+        caminho_completo = os.path.join(caminho, item)
+        if os.path.isfile(caminho_completo) and item.endswith(".log"):
+            print(item)
