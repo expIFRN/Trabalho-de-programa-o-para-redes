@@ -1,0 +1,39 @@
+import socket
+
+def verificar_porta(porta, host='127.0.0.1'):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(0.5)  # Timeout curto para não travar muito
+    try:
+        resultado = sock.connect_ex((host, porta))
+        return resultado == 0
+    except Exception:
+        return False
+    finally:
+        sock.close()
+
+def main():
+    intervalo = input("Digite o intervalo de portas (exemplo: 20 100): ")
+    try:
+        inicio, fim = map(int, intervalo.strip().split())
+        if inicio < 0 or fim > 65535 or inicio > fim:
+            print("Intervalo inválido! Portas devem estar entre 0 e 65535 e início <= fim.")
+            return
+    except:
+        print("Entrada inválida. Use o formato: <inicio> <fim>")
+        return
+
+    portas_abertas = []
+    print(f"Verificando portas abertas entre {inicio} e {fim} no localhost...")
+    for porta in range(inicio, fim + 1):
+        if verificar_porta(porta):
+            portas_abertas.append(porta)
+
+    if portas_abertas:
+        print("Portas abertas encontradas:")
+        for p in portas_abertas:
+            print(f"- Porta {p}")
+    else:
+        print("Nenhuma porta aberta encontrada nesse intervalo.")
+
+if __name__ == "__main__":
+    main()
