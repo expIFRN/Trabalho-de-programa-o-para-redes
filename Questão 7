@@ -1,0 +1,16 @@
+import requests
+
+caminho_arquivo = 'C:/Users/20241144030018/Desktop/TRABALHO/sites.txt'
+
+with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+    sites = [linha.strip() for linha in arquivo if linha.strip()]
+
+for site in sites:
+    try:
+        resposta = requests.get(site, timeout=5)
+        if resposta.status_code == 200:
+            print(f'[ONLINE] {site}')
+        else:
+            print(f'[ERRO {resposta.status_code}] {site}')
+    except requests.exceptions.RequestException as e:
+        print(f'[FALHA] {site} - {e}')
