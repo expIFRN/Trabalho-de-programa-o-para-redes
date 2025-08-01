@@ -1,0 +1,11 @@
+import random
+
+def gerar_senha(digitos=8):
+    return ''.join(str(random.randint(0, 9)) for _ in range(digitos))
+
+if __name__ == "__main__":
+    roteadores = [f"roteador_{i+1}" for i in range(5)]
+    print("Senhas geradas para roteadores:")
+    for roteador in roteadores:
+        senha = gerar_senha()
+        print(f"{roteador}: {senha}")
